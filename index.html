@@ -83,8 +83,7 @@
 
  <audio id="celebration-sound" src="https://wikimedia.org" preload="auto"></audio>
    <!-- Clean, network-free sound system using built-in browser synthesizer -->
-    <script>
-        // Setup Web Audio Context safely
+   <script>
         let audioCtx = null;
 
         function initAudio() {
@@ -96,15 +95,12 @@
             }
         }
 
-        // Trigger system warmup on first touch or click
         document.addEventListener('touchstart', initAudio, { once: true });
         document.addEventListener('click', initAudio, { once: true });
 
         function moveNo(event) {
-            if (event) {
-                event.preventDefault();
-            }
-            initAudio(); // Keep waking up the audio track engine
+            if (event) event.preventDefault();
+            initAudio();
 
             const noBtn = document.getElementById('no-btn');
             const padding = 20;
@@ -121,34 +117,73 @@
             moveNo(event);
         }
 
-        // Plays a cute "Success Ding" entirely via synthetic mathematical code!
-        function playChimeEffect() {
+        // Synthesizes a rapid, multi-note retro victory arcade tune!
+        function playCelebrationTune() {
             try {
                 initAudio();
-                
-                // Create tone generator blocks
-                const osc = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                
-                osc.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                
-                // Set sound style to a smooth triangle wave
-                osc.type = 'triangle'; 
-                
-                // Play two rapid, cheerful high notes (a happy ding!)
                 const now = audioCtx.currentTime;
-                osc.frequency.setValueAtTime(523.25, now); // Note C5
-                osc.frequency.setValueAtTime(783.99, now + 0.12); // Note G5
                 
-                // Smoothly fade out the sound so it doesn't pop or click
-                gainNode.gain.setValueAtTime(0.3, now);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-                
-                osc.start(now);
-                osc.stop(now + 0.6);
+                // Array of notes to play sequentially [Frequency, Start Time, Duration]
+                const notes = [
+                    [261.63, 0.0, 0.1],  // C4
+                    [329.63, 0.1, 0.1],  // E4
+                    [392.00, 0.2, 0.1],  // G4
+                    [523.25, 0.3, 0.15], // C5
+                    [392.00, 0.45, 0.1], // G4
+                    [523.25, 0.55, 0.4]  // Long triumphant C5!
+                ];
+
+                notes.forEach(([freq, delay, duration]) => {
+                    const osc = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    
+                    osc.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + delay);
+                    
+                    gainNode.gain.setValueAtTime(0.2, now + delay);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, now + delay + duration);
+                    
+                    osc.start(now + delay);
+                    osc.stop(now + delay + duration);
+                });
             } catch (error) {
-                console.log("Synthesizer error:", error);
+                console.log("Audio failed:", error);
+            }
+        }
+
+        // Creates a shower of real-time falling colorful paper pieces on the screen
+        function createConfettiBurst() {
+            const colors = ['#f2d74e', '#95c3de', '#b963ff', '#ff9a9e', '#57cc99'];
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.width = Math.random() * 8 + 6 + 'px';
+                confetti.style.height = Math.random() * 8 + 12 + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-5vh';
+                confetti.style.borderRadius = '2px';
+                confetti.style.opacity = Math.random();
+                confetti.style.zIndex = '999';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                document.body.appendChild(confetti);
+
+                // Animate down the screen
+                const speed = Math.random() * 3 + 2;
+                let currentTop = -5;
+                
+                const fallInterval = setInterval(() => {
+                    currentTop += speed;
+                    confetti.style.top = currentTop + 'vh';
+                    if (currentTop > 100) {
+                        clearInterval(fallInterval);
+                        confetti.remove();
+                    }
+                }, 20);
             }
         }
 
@@ -157,11 +192,11 @@
             document.querySelector('h1').style.display = 'none';
             document.getElementById('success').style.display = 'block';
             
-            // Fire the synthetic chime
-            playChimeEffect();
+            // Fire both visual and audio celebration mechanics simultaneously
+            playCelebrationTune();
+            createConfettiBurst();
         }
     </script>
-
     
 
        
