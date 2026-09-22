@@ -83,8 +83,9 @@
 
  <audio id="celebration-sound" src="https://wikimedia.org" preload="auto"></audio>
    <!-- Clean, network-free sound system using built-in browser synthesizer -->
-   <script>
+  <script>
         let audioCtx = null;
+        let isCelebrating = false;
 
         function initAudio() {
             if (!audioCtx) {
@@ -117,47 +118,63 @@
             moveNo(event);
         }
 
-        // Synthesizes a rapid, multi-note retro victory arcade tune!
-        function playCelebrationTune() {
+        // Synthesizes a full, happy celebration melody that loops multiple times!
+        function playLongCelebrationTune() {
             try {
                 initAudio();
-                const now = audioCtx.currentTime;
+                let startTime = audioCtx.currentTime;
                 
-                // Array of notes to play sequentially [Frequency, Start Time, Duration]
-                const notes = [
-                    [261.63, 0.0, 0.1],  // C4
-                    [329.63, 0.1, 0.1],  // E4
-                    [392.00, 0.2, 0.1],  // G4
-                    [523.25, 0.3, 0.15], // C5
-                    [392.00, 0.45, 0.1], // G4
-                    [523.25, 0.55, 0.4]  // Long triumphant C5!
+                // A complete, cheerful 4-bar musical melody phrase loop
+                // Format: [Note Frequency, Duration of note]
+                const melody = [
+                    [261.63, 0.15], [329.63, 0.15], [392.00, 0.15], [523.25, 0.3], // C, E, G, High C
+                    [392.00, 0.15], [523.25, 0.4],                                 // G, High C
+                    [349.23, 0.15], [440.00, 0.15], [523.25, 0.3],                 // F, A, High C
+                    [392.00, 0.15], [329.63, 0.15], [261.63, 0.4]                  // G, E, C
                 ];
 
-                notes.forEach(([freq, delay, duration]) => {
-                    const osc = audioCtx.createOscillator();
-                    const gainNode = audioCtx.createGain();
+                // Loop the entire catchy melody 4 times back-to-back (~12-15 seconds total)
+                for (let loop = 0; loop < 4; loop++) {
+                    let noteDelay = 0;
                     
-                    osc.connect(gainNode);
-                    gainNode.connect(audioCtx.destination);
+                    melody.forEach(([freq, duration]) => {
+                        const osc = audioCtx.createOscillator();
+                        const gainNode = audioCtx.createGain();
+                        
+                        osc.connect(gainNode);
+                        gainNode.connect(audioCtx.destination);
+                        
+                        // 'triangle' waves sound softer and much more musical like a real instrument
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, startTime + noteDelay);
+                        
+                        gainNode.gain.setValueAtTime(0.15, startTime + noteDelay);
+                        gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + noteDelay + duration);
+                        
+                        osc.start(startTime + noteDelay);
+                        osc.stop(startTime + noteDelay + duration);
+                        
+                        noteDelay += duration + 0.05; // Gap space between notes
+                    });
                     
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(freq, now + delay);
-                    
-                    gainNode.gain.setValueAtTime(0.2, now + delay);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, now + delay + duration);
-                    
-                    osc.start(now + delay);
-                    osc.stop(now + delay + duration);
-                });
+                    startTime += noteDelay; // Start the next musical loop right after the last one finishes
+                }
             } catch (error) {
                 console.log("Audio failed:", error);
             }
         }
 
-        // Creates a shower of real-time falling colorful paper pieces on the screen
-        function createConfettiBurst() {
+        // Continues showering confetti non-stop for 15 full seconds!
+        function startContinuousConfetti() {
             const colors = ['#f2d74e', '#95c3de', '#b963ff', '#ff9a9e', '#57cc99'];
-            for (let i = 0; i < 100; i++) {
+            
+            // Create a timer to spawn fresh pieces every 150 milliseconds
+            const spawnTimer = setInterval(() => {
+                if (!isCelebrating) {
+                    clearInterval(spawnTimer);
+                    return;
+                }
+
                 const confetti = document.createElement('div');
                 confetti.style.width = Math.random() * 8 + 6 + 'px';
                 confetti.style.height = Math.random() * 8 + 12 + 'px';
@@ -172,8 +189,7 @@
                 
                 document.body.appendChild(confetti);
 
-                // Animate down the screen
-                const speed = Math.random() * 3 + 2;
+                const speed = Math.random() * 2 + 2;
                 let currentTop = -5;
                 
                 const fallInterval = setInterval(() => {
@@ -184,17 +200,25 @@
                         confetti.remove();
                     }
                 }, 20);
-            }
+            }, 150);
+
+            // Automatically clean up and stop spawning after 15 seconds
+            setTimeout(() => {
+                isCelebrating = false;
+            }, 15000);
         }
 
         function sayYes() {
+            if (isCelebrating) return; // Prevent double clicking bugs
+            isCelebrating = true;
+
             document.querySelector('.buttons').style.display = 'none';
             document.querySelector('h1').style.display = 'none';
             document.getElementById('success').style.display = 'block';
             
-            // Fire both visual and audio celebration mechanics simultaneously
-            playCelebrationTune();
-            createConfettiBurst();
+            // Trigger our longer, looping audio and full-screen visual celebrations
+            playLongCelebrationTune();
+            startContinuousConfetti();
         }
     </script>
     
