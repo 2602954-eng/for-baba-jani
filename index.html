@@ -82,15 +82,25 @@
     </div>
 
    <audio id="celebration-sound" src="https://google.com" preload="auto"></audio>
-
     <script>
+        // Create a single global audio object
+        const audio = document.getElementById('celebration-sound');
+
         function moveNo(event) {
             if (event) {
-                event.preventDefault(); // Stops the mobile tap from counting as a click
+                event.preventDefault();
             }
-            const noBtn = document.getElementById('no-btn');
             
-            // Generate safe random positions anywhere on the screen
+            // SECRET TRICK: This "wakes up" the phone audio engine 
+            // the very millisecond he tries to touch "No"
+            if (audio) {
+                audio.play().then(() => {
+                    audio.pause(); // Instantly pause it so it stays hidden
+                    audio.currentTime = 0;
+                }).catch(e => console.log("Audio unlock failed:", e));
+            }
+
+            const noBtn = document.getElementById('no-btn');
             const padding = 20;
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding * 2) + padding;
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding * 2) + padding;
@@ -110,11 +120,17 @@
             document.querySelector('h1').style.display = 'none';
             document.getElementById('success').style.display = 'block';
             
-            const audio = document.getElementById('celebration-sound');
-            audio.play().catch(error => {
-                console.log("Audio play blocked:", error);
-            });
+            // Play it for real when Yes is clicked!
+            if (audio) {
+                audio.play().catch(error => {
+                    console.log("Audio play blocked:", error);
+                });
+            }
         }
     </script>
+
+    
+
+       
 </body>
 </html>
