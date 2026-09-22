@@ -68,6 +68,24 @@
             font-weight: bold;
             margin-top: 20px;
         }
+        .watermark {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
+            pointer-events: none;
+            z-index: 1000;
+            font-family: 'Arial', sans-serif;
+            letter-spacing: 0.5px;
+        }
     </style>
 </head>
 <body>
@@ -221,6 +239,7 @@
             startContinuousConfetti();
         }
     </script>
+    <div class="watermark">🛠️ Made by Sufyan Rashid Khokhar</div>
     
 
        
