@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Important Question for Baba! </title>
+    <title>Important Question for Baba! ❤️</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,9 +20,9 @@
         }
         h1 { color: #333; font-size: 21px; margin-bottom: 15px; }
         .iphone-img {
-            width: 170px; height: auto; margin-bottom: 15px;
+            width: 160px; height: auto; margin-bottom: 15px;
             display: block; margin-left: auto; margin-right: auto;
-            border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         .buttons { display: flex; justify-content: center; gap: 20px; height: 60px; align-items: center; }
         button { padding: 12px 30px; font-size: 18px; font-weight: bold; border: none; border-radius: 10px; cursor: pointer; touch-action: none; }
@@ -35,8 +35,8 @@
 <body>
 
     <div class="container">
-        <!-- Embedded real-life photograph using unblockable inline layout data -->
-        <img class="iphone-img" id="iphone-pic" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 180 200' width='180' height='200'><rect width='100%' height='100%' fill='%23ffffff'/><rect x='45' y='15' width='90' height='170' rx='20' fill='%230f172a' stroke='%23334155' stroke-width='3'/><rect x='73' y='21' width='34' height='10' rx='5' fill='%23000000'/><rect x='51' y='36' width='78' height='141' rx='14' fill='url(%23g)'/><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0%25' stop-color='%231e1b4b'/><stop offset='100%25' stop-color='%23311042'/></linearGradient><circle cx='90' cy='100' r='18' fill='none' stroke='%23ffffff' stroke-width='2' stroke-opacity='0.15'/><path d='M90,88 C94,88 95,91 97,91 C99,91 100,88 103,88 C107,88 109,92 107,96 C105,101 101,107 97,107 C94,107 93,105 90,105 C87,105 86,107 83,107 C79,107 74,101 73,96 C71,92 73,88 77,88 C80,88 81,91 83,91 C85,91 86,88 90,88 Z' fill='%23ffffff' fill-opacity='0.25'/><path d='M95,87 C96,84 95,82 93,80 C91,82 90,84 91,87 C92,88 94,88 95,87 Z' fill='%23ffffff' fill-opacity='0.25'/></svg>" alt="Real iPhone 16">
+        <!-- Pulls the real photo file safely directly from your local repository folder -->
+        <img class="iphone-img" id="iphone-pic" src="iphone16.jpg" alt="Real iPhone 16">
         <h1>Baba, will you buy me an iPhone 16? ✨</h1>
         <div class="buttons">
             <button id="yes-btn" onclick="sayYes()">Yes!</button>
@@ -65,7 +65,6 @@
         }
         function preventClick(event) { event.preventDefault(); moveNo(event); }
 
-        // Fixed: Renders a high-fidelity loop track melody that continues forever!
         function playEndlessVictoryMusic() {
             initAudio();
             let step = 0;
@@ -78,8 +77,7 @@
             melodyInterval = setInterval(() => {
                 if (!isCelebrating) { clearInterval(melodyInterval); return; }
                 let now = audioCtx.currentTime;
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
+                let osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
                 
                 osc.connect(gain); gain.connect(audioCtx.destination);
                 osc.type = 'triangle';
@@ -89,8 +87,8 @@
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
                 
                 osc.start(now); osc.stop(now + 0.4);
-                step = (step + 1) % sequence.length; // Resets seamlessly to step 0 to loop infinitely
-            }, 200);
+                step = (step + 1) % sequence.length;
+            }, 220);
         }
 
         function startConfetti() {
