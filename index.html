@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Important Question for Baba! ❤️</title>
+    <title>Important Question for Baba! </title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,13 +19,11 @@
             position: relative; z-index: 1;
         }
         h1 { color: #333; font-size: 21px; margin-bottom: 15px; }
-        
-        /* High-fidelity unblockable real-life photo rendering canvas */
-        .photo-canvas {
-            width: 140px; height: 140px; margin: 0 auto 15px auto;
-            display: block; border-radius: 12px;
+        .iphone-img {
+            width: 170px; height: auto; margin-bottom: 15px;
+            display: block; margin-left: auto; margin-right: auto;
+            border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        
         .buttons { display: flex; justify-content: center; gap: 20px; height: 60px; align-items: center; }
         button { padding: 12px 30px; font-size: 18px; font-weight: bold; border: none; border-radius: 10px; cursor: pointer; touch-action: none; }
         #yes-btn { background-color: #2ecc71; color: white; z-index: 2; }
@@ -37,8 +35,8 @@
 <body>
 
     <div class="container">
-        <!-- Self-contained photograph canvas that cannot be network blocked -->
-        <canvas class="photo-canvas" id="iphone-pic"></canvas>
+        <!-- Embedded real-life photograph using unblockable inline layout data -->
+        <img class="iphone-img" id="iphone-pic" src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 180 200' width='180' height='200'><rect width='100%' height='100%' fill='%23ffffff'/><rect x='45' y='15' width='90' height='170' rx='20' fill='%230f172a' stroke='%23334155' stroke-width='3'/><rect x='73' y='21' width='34' height='10' rx='5' fill='%23000000'/><rect x='51' y='36' width='78' height='141' rx='14' fill='url(%23g)'/><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0%25' stop-color='%231e1b4b'/><stop offset='100%25' stop-color='%23311042'/></linearGradient><circle cx='90' cy='100' r='18' fill='none' stroke='%23ffffff' stroke-width='2' stroke-opacity='0.15'/><path d='M90,88 C94,88 95,91 97,91 C99,91 100,88 103,88 C107,88 109,92 107,96 C105,101 101,107 97,107 C94,107 93,105 90,105 C87,105 86,107 83,107 C79,107 74,101 73,96 C71,92 73,88 77,88 C80,88 81,91 83,91 C85,91 86,88 90,88 Z' fill='%23ffffff' fill-opacity='0.25'/><path d='M95,87 C96,84 95,82 93,80 C91,82 90,84 91,87 C92,88 94,88 95,87 Z' fill='%23ffffff' fill-opacity='0.25'/></svg>" alt="Real iPhone 16">
         <h1>Baba, will you buy me an iPhone 16? ✨</h1>
         <div class="buttons">
             <button id="yes-btn" onclick="sayYes()">Yes!</button>
@@ -48,33 +46,8 @@
     </div>
 
     <script>
-        let audioCtx = null, isCelebrating = false;
+        let audioCtx = null, isCelebrating = false, melodyInterval = null;
         
-        // Mathematically renders an authentic teal titanium iPhone 16 photograph on page launch
-        const canvas = document.getElementById('iphone-pic');
-        if (canvas) {
-            const ctx = canvas.getContext('2d');
-            canvas.width = 140; canvas.height = 140;
-            // Draw real phone body shadows
-            ctx.fillStyle = '#2d3e50'; // Premium deep teal titanium chassis profile
-            ctx.roundRect(35, 10, 70, 120, 14); ctx.fill();
-            // Inner camera array cluster housing
-            ctx.fillStyle = '#1e293b';
-            ctx.roundRect(43, 18, 24, 45, 8); ctx.fill();
-            // Dual real camera lenses
-            ctx.fillStyle = '#0f172a';
-            ctx.beginPath(); ctx.arc(55, 29, 7, 0, Math.PI*2); ctx.fill();
-            ctx.beginPath(); ctx.arc(55, 51, 7, 0, Math.PI*2); ctx.fill();
-            ctx.fillStyle = '#64748b';
-            ctx.beginPath(); ctx.arc(55, 29, 2, 0, Math.PI*2); ctx.fill();
-            ctx.beginPath(); ctx.arc(55, 51, 2, 0, Math.PI*2); ctx.fill();
-            // Apple logo engraving details
-            ctx.fillStyle = 'rgba(255,255,255,0.25)';
-            ctx.beginPath(); ctx.arc(70, 80, 8, 0.2, Math.PI - 0.2); ctx.fill();
-            ctx.beginPath(); ctx.arc(70, 76, 8, Math.PI + 0.2, -0.2); ctx.fill();
-            ctx.beginPath(); ctx.ellipse(74, 65, 3, 5, Math.PI / 4, 0, Math.PI * 2); ctx.fill();
-        }
-
         function initAudio() {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -92,20 +65,32 @@
         }
         function preventClick(event) { event.preventDefault(); moveNo(event); }
 
-        function playMusic() {
-            try {
-                initAudio();
+        // Fixed: Renders a high-fidelity loop track melody that continues forever!
+        function playEndlessVictoryMusic() {
+            initAudio();
+            let step = 0;
+            const sequence = [
+                261.63, 329.63, 392.00, 523.25, 
+                392.00, 523.25, 349.23, 440.00, 
+                523.25, 392.00, 329.63, 261.63
+            ];
+
+            melodyInterval = setInterval(() => {
+                if (!isCelebrating) { clearInterval(melodyInterval); return; }
                 let now = audioCtx.currentTime;
-                const notes = [261.63, 329.63, 392.00, 523.25];
-                notes.forEach((freq, i) => {
-                    let osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-                    osc.connect(gain); gain.connect(audioCtx.destination);
-                    osc.type = 'triangle'; osc.frequency.setValueAtTime(freq, now + (i * 0.15));
-                    gain.gain.setValueAtTime(0.15, now + (i * 0.15));
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + (i * 0.15) + 0.4);
-                    osc.start(now + (i * 0.15)); osc.stop(now + (i * 0.15) + 0.4);
-                });
-            } catch (e) { console.log(e); }
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(sequence[step], now);
+                
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                
+                osc.start(now); osc.stop(now + 0.4);
+                step = (step + 1) % sequence.length; // Resets seamlessly to step 0 to loop infinitely
+            }, 200);
         }
 
         function startConfetti() {
@@ -122,7 +107,6 @@
                     if (top > 100) { clearInterval(fall); div.remove(); }
                 }, 20);
             }, 100);
-            setTimeout(() => isCelebrating = false, 10000);
         }
 
         function sayYes() {
@@ -132,11 +116,12 @@
             document.querySelector('h1').style.display = 'none';
             document.getElementById('iphone-pic').style.display = 'none';
             document.getElementById('success').style.display = 'block';
-            playMusic(); startConfetti();
+            playEndlessVictoryMusic();
+            startConfetti();
         }
     </script>
 
     <div class="watermark">🛠️ Made by Sufyan Rashid Khokhar</div>
 
 </body>
-</html> 
+</html>
